@@ -16,28 +16,29 @@ import java.util.Arrays;
 public class NetherLandsFlag {
 
     public static int[] partition(int[] arr,int left,int right,int target) {
-        int less = left - 1;        //  ＜区的区域
-        int more = right + 1;       //  ＞区的区域
-        while (left < more){        //left表示当前值
-            if (arr[left] < target){
-                swap(arr,++less,left++);    //＜区扩张，当前值增加
-            }else if (arr[left] > target){
-                swap(arr,--more,left);      //大于区缩小，交换，当前值不变
-            }else {
-                left++;              //相等，当前值增加
-            }
-
-            Arrays.stream(arr).forEach(System.out::print);
-            System.out.println(left);
+        //  小于 target 的区域
+        int less = left - 1;
+        //  大于 target 的区域
+        int more = right + 1;
+        while (left < more) {
+            if (arr[left] < target)
+                //＜区扩张，当前值增加
+                swap(arr,++less,left++);
+            else if (arr[left] > target)
+                //大于区缩小，交换，当前值不变
+                swap(arr,--more,left);
+            else
+                left++;
         }
         int[] res = {less + 1, more - 1};
-        return res;     //返回相等区域的左右边界。
+        // 返回相等区域的左右边界。
+        return res;
     }
 
     public static void swap(int[] arr, int i, int j) {
-        int temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[j] ^ arr[i];
+        arr[i] = arr[j] ^ arr[i];
     }
 
     public static void main(String[] args) {
