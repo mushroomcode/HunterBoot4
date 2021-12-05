@@ -34,4 +34,12 @@ public class MyHtrixController {
         return "Integra!!";
     }
 
+    @RequestMapping("/hunterAsync")
+    @ResponseBody
+    public String reqHunterAsyncAnno() {
+        System.out.println("BEGIN TIME:" + System.currentTimeMillis());
+        service.asyncSystemOut("Integra!!");
+        return "Integra!!";
+    }
+
 }
