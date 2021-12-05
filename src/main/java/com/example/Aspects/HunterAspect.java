@@ -1,5 +1,6 @@
 package com.example.Aspects;
 
+import com.example.annotations.HunterAsyncAnno;
 import com.example.annotations.HunterLogAnno;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 
 /**
- * 使用 Aspect 实现注解
+ * 使用 Aspect 实现注解，别忘记添加 @Component 注解让Aspect注解生效
  */
 @Component
 @Aspect
@@ -23,20 +24,20 @@ public class HunterAspect {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Pointcut("@annotation(com.example.annotations.HunterLogAnno) && execution(public * com.example.Controller..*(*))")
-    private void logPointCut() { }
-
+    /**
+     *  这里定义一个PointCut，用于描述满足条件的方法
+     */
     @Pointcut("execution(public * com.example.Services..*(*))")
     private void normalPointCut() {
         System.out.println("pointCut");
     }
 
-    /** 将Services 文件下，且带有 HunterLogAnnotation 的类进行
+    /** 将Services 文件下，且带有 HunterLogAnno 注解的类进行
      *
      * @param joinPoint
      */
     @Around("normalPointCut() && @annotation(com.example.annotations.HunterLogAnno)")
-    private void normalPointBefore(ProceedingJoinPoint joinPoint) throws Throwable {
+    private void normalPointAround(ProceedingJoinPoint joinPoint) throws Throwable {
         logger.info("===========================");
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
@@ -48,6 +49,33 @@ public class HunterAspect {
         // 打印注解记录
         logger.info(value);
         logger.info("===========================");
+    }
+
+    /**
+     *  定义一个注解的切点
+     * @param joinPoint
+     */
+    @Around("normalPointCut() && @annotation(com.example.annotations.HunterAsyncAnno)")
+    private void asyncPointAround(ProceedingJoinPoint joinPoint) {
+        try {
+            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+            Method method = signature.getMethod();
+            HunterAsyncAnno hunterAsyncAnno = method.getAnnotation(HunterAsyncAnno.class);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(5000);
+                        joinPoint.proceed();
+                        System.out.println("END TIME：" + System.currentTimeMillis());
+                    } catch (Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                }
+            }).start();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 
 
