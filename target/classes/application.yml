@@ -1,10 +1,19 @@
 server:
-  port: 8761
+  port: 8769
+#spring:
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: gateway-service
+#          uri: https://www.baidu.com/
+#          predicates:
+#            - Path=/hello
 eureka:
   instance:
     hostname: localhost
   client:
     registerWithEureka: false
+    # 注意格式的缩进
     fetch-registry: false
     service-url:
         defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

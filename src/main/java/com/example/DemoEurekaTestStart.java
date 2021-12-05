@@ -1,16 +1,8 @@
-package com.example.demo;
+package com.example;
 
-import com.example.Listeners.HunterListenerForFox;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-//import org.springframework.cloud.gateway.route.RouteLocator;
-//import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
-import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * 使用 eureka 的启动注解，服务的注册中心
@@ -18,8 +10,9 @@ import org.springframework.context.annotation.ComponentScan;
  * xiaoguanyue
  */
 //@EnableEurekaServer
-@ServletComponentScan(basePackages = "com.example.Listeners")
+//@ServletComponentScan(basePackages = "com.example.*")
 @SpringBootApplication
+@EnableAspectJAutoProxy
 public class DemoEurekaTestStart {
     public static void main(String[] args) {
         SpringApplication.run(DemoEurekaTestStart.class, args);

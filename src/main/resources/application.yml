@@ -1,5 +1,13 @@
 server:
-  port: 8761
+  port: 8769
+#spring:
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: gateway-service
+#          uri: https://www.baidu.com/
+#          predicates:
+#            - Path=/hello
 eureka:
   instance:
     hostname: localhost
