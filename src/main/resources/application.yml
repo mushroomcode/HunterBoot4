@@ -1,5 +1,5 @@
 server:
-  port: 8769
+  port: 8771
 #spring:
 #  cloud:
 #    gateway:
@@ -17,3 +17,8 @@ eureka:
     fetch-registry: false
     service-url:
         defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+hunter:
+  config:
+    enable: true
+    hunterinfo:
+      hunter-server-name: Hunter2
