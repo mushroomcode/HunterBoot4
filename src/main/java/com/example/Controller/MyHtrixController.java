@@ -1,37 +1,26 @@
 package com.example.Controller;
 
+import com.Beans.HunterInit;
 import com.example.Services.HunterServiceImpl;
-import com.example.annotations.HunterLogAnno;
-import com.example.annotations.MytrixAnno;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Random;
 
 @RestController
 public class MyHtrixController {
 
-    private Random random = new Random();
-
     @Autowired
     private HunterServiceImpl service;
 
-    @MytrixAnno(fallback = "errorMethod")
-    @RequestMapping("/hello")
-    public String resolveRest(@RequestParam("name") String message) {
-        int time = random.nextInt(200);
-        System.out.println();
-        return "hello world:" + message;
-    }
+    @Autowired
+    public HunterInit hunterInit;
 
-    @RequestMapping("/hunterCook")
+    @RequestMapping("/hunterCar")
     @ResponseBody
     public String reqHunterAnno() {
-        service.getTheLogs("Integra!!");
-        return "Integra!!";
+        service.getTheLogs("honda");
+        return "honda!!";
     }
 
     @RequestMapping("/hunterAsync")
@@ -40,6 +29,12 @@ public class MyHtrixController {
         System.out.println("BEGIN TIME:" + System.currentTimeMillis());
         service.asyncSystemOut("Integra!!");
         return "Integra!!";
+    }
+
+    @RequestMapping("/hunterName")
+    @ResponseBody
+    public String getHunterName() {
+        return hunterInit.getHunterServerName();
     }
 
 }
