@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class HunterServiceImpl {
 
-    @HunterLogAnno(value = "Integra")
+    @HunterLogAnno(value = "honda")
     public void getTheLogs(String name) {
         System.out.println(name);
     }

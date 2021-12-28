@@ -6,6 +6,7 @@ import java.lang.annotation.*;
  * 异步执行方法的注解
  * AUTHOR: XIAOGUANYUE
  */
+@Inherited   // Inher
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @Documented

@@ -1,11 +1,21 @@
 package com.example.Controller;
 
 import com.Beans.HunterInit;
+import com.HunterProperties.HunterDataConfigProperties;
+import com.example.Configuration.AutoBeanConfiguration;
+import com.example.Services.HunterDataServices;
 import com.example.Services.HunterServiceImpl;
+import com.example.beans.HunterInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 
 @RestController
 public class MyHtrixController {
@@ -14,7 +24,14 @@ public class MyHtrixController {
     private HunterServiceImpl service;
 
     @Autowired
-    public HunterInit hunterInit;
+    private HunterDataServices dataServices;
+
+    @Autowired
+
+    private HunterDataConfigProperties properties;
+
+    @Autowired
+    public AutoBeanConfiguration autoBeanConfiguration;
 
     @RequestMapping("/hunterCar")
     @ResponseBody
@@ -30,11 +47,19 @@ public class MyHtrixController {
         service.asyncSystemOut("Integra!!");
         return "Integra!!";
     }
-
+//
     @RequestMapping("/hunterName")
     @ResponseBody
-    public String getHunterName() {
-        return hunterInit.getHunterServerName();
+    public List<HunterInfo> getHunterName() throws SQLException {
+//        return hunterInit.getHunterServerName();
+        return dataServices.queryHuntersInfo();
     }
+
+    @RequestMapping("/hunterExcel")
+    @ResponseBody
+    public int getHunterExcelResource() {
+        return autoBeanConfiguration.getCorePoolSize();
+    }
+
 
 }
